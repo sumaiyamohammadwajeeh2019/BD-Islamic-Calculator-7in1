@@ -1,0 +1,41 @@
+# render.yaml - v7.0 FINAL
+# BD Islamic Super Calculator 7in1- Dr. Sumaiya Mohammad
+# Features: Tax | Zakat | Fitra | Faraiz | Qurbani | Tasbih | Donate
+
+
+services:
+    - type: web
+    name: bd-calculator-dr-sumaiya-7in1
+    env: static
+    plan: free
+    branch: main
+    rootDir: ./
+    buildCommand: echo "Building- Dr Sumaiya Mohammad - No build needed"
+    staticPublishPath: ./
+    routes:
+            - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+            - path: /*
+        name: Cache-Control
+        value: public, max-age=3600
+            - path: /index.html
+        name: Content-Type
+        value: text/html; charset=utf-8
+            - path: /*
+        name: X-Developer
+        value: Dr. Sumaiya Mohammad
+    envVars:
+            - key: APP_NAME
+        value: BD Islamic Calculator 7in1
+            - key: DEVELOPER_NAME
+        value: Dr. Sumaiya Mohammad
+            - key: BKASH_DONATION
+        value: 01742701642
+            - key: DONATION_NOTE
+        value: General Donation Only - We do NOT collect Zakat
+            - key: FEATURES
+        value: Tax,Zakat,Fitra,Faraiz,Qurbani,Tasbih,Donate
+            - key: NODE_ENV
+        value: production
