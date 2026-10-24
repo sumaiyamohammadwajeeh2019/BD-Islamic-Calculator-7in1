@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BD Islamic Calculator 7in1 - Dr. Sumaiya Mohammad</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',sans-serif;max-width:480px;margin:auto;background:#f0f2f5}
+.header{background:linear-gradient(135deg,#006A4E,#004d38);color:white;padding:14px;text-align:center;position:sticky;top:0;z-index:100}
+.tabs{display:flex;background:white;overflow-x:auto;box-shadow:0 2px 4px rgba(0,0,0,.1);position:sticky;top:60px;z-index:99}
+.tab{flex:1;min-width:70px;padding:10px 1px;text-align:center;font-size:10px;font-weight:800;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+.tab.active{color:#006A4E;border-color:#006A4E;background:#e8f5e9}
+.panel{display:none;padding:10px} .panel.active{display:block}
+.card{background:white;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.card h3{font-size:15px;color:#006A4E;margin-bottom:6px;border-left:4px solid #006A4E;padding-left:8px}
+.card small{font-size:11px;color:#666}
+label{font-size:12px;font-weight:600;color:#333;display:block;margin-top:9px}input,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:8px;margin-top:4px;font-size:14px}
+.btn{width:100%;padding:12px;border:0;border-radius:10px;font-weight:800;cursor:pointer;margin-top:10px;color:white}
+.btn-tax{background:#006A4E}.btn-zakat{background:#795548}.btn-fitra{background:#283593}.btn-faraiz{background:#00695c}.btn-qurbani{background:#bf360c}.btn-tasbih{background:#004d40}.btn-donate{background:linear-gradient(90deg,#006A4E,#e2136e)}
+.result{background:#f1f8e9;border:1.5px dashed #66bb6a;padding:10px;border-radius:10px;margin-top:10px;font-size:13px;line-height:1.6}
+.bkash-card{background:linear-gradient(90deg,#006A4E,#e2136e);color:white;padding:12px;border-radius:12px;text-align:center;line-height:1.4}
+.bkash-card a{color:#ffeb3b;text-decoration:none;font-size:18px;font-weight:900;letter-spacing:1px}
+.tasbih-circle{width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,#006A4E,#004d38);color:white;display:flex;align-items:center;justify-content:center;font-size:50px;font-weight:900;margin:15px auto;box-shadow:0 8px 20px rgba(0,106,78,.4);cursor:pointer;user-select:none}
+.footer{background:#0a2e1d;color:#a5d6a7;text-align:center;padding:14px;font-size:10px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="header"><h1>🇧🇩 BD ISLAMIC CALCULATOR 2026</h1><p>Tax | Zakat | Fitra | Faraiz | Qurbani | Tasbih | Dr. Sumaiya Mohammad</p></div>
+<div class="tabs">
+<div class="tab active" onclick="showTab(event,'tax')">TAX</div>
+<div class="tab" onclick="showTab(event,'zakat')">ZAKAT</div>
+<div class="tab" onclick="showTab(event,'fitra')">FITRA</div>
+<div class="tab" onclick="showTab(event,'faraiz')">FARAIZ</div>
+<div class="tab" onclick="showTab(event,'qurbani')">QURBANI</div>
+<div class="tab" onclick="showTab(event,'tasbih')">TASBIH</div>
+<div class="tab" onclick="showTab(event,'donate')">DONATE</div>
+</div>
+
+<!-- TAX -->
+<div id="tax" class="panel active">
+<div class="card"><h3>আয়কর ২০২৫-২৬ (AY 26-27)</h3><small>NBR Finance Ordinance 2025</small>
+<label>বার্ষিক আয় ৳</label><input type="number" id="t_inc" value="800000">
+<label>করমুক্ত সীমা</label><select id="t_cat"><option value="375000">General 3.75L</option><option value="425000">Female/65+ 4.25L</option><option value="500000">Disabled 5L</option></select>
+<label><input type="checkbox" id="t_sal" checked> চাকুরীজীবি (১/৩ ছাড়)</label>
+<button class="btn btn-tax" onclick="calcTax()">Calculate Tax</button><div id="t_res" class="result">Result here</div></div>
+</div>
+
+<!-- ZAKAT -->
+<div id="zakat" class="panel">
+<div class="card"><h3>যাকাত ক্যালকুলেটর</h3><small>Silver Nisab 612.36g</small>
+<label>নগদ + ব্যাংক ৳</label><input type="number" id="z_cash" placeholder="200000">
+<label>স্বর্ণ গ্রাম</label><input type="number" id="z_gGr" placeholder="50">
+<label>স্বর্ণ মূল্য ৳ Auto</label><input type="number" id="z_gold">
+<label>অন্যান্য + পাওনা ৳</label><input type="number" id="z_other">
+<label>ঋণ বাদ ৳</label><input type="number" id="z_debt">
+<button class="btn btn-zakat" onclick="calcZakat()">যাকাত বের করুন</button><div id="z_res" class="result">Nisab ~88k</div></div>
+</div>
+
+<!-- FITRA -->
+<div id="fitra" class="panel">
+<div class="card"><h3>ফিতরা ২০২৬</h3>
+<label>সদস্য সংখ্যা</label><input type="number" id="f_cnt" value="5">
+<label>ধরন</label><select id="f_type"><option value="115">আটা 115৳</option><option value="400">যব 400৳</option><option value="820">কিশমিশ 820৳</option><option value="1690">খেজুর 1690৳</option><option value="2970">পনির 2970৳</option></select>
+<button class="btn btn-fitra" onclick="calcFitra()">মোট ফিতরা</button><div id="f_res" class="result"></div></div>
+</div>
+<!-- FARAIZ -->
+<div id="faraiz" class="panel">
+<div class="card"><h3>⚖️ ফরায়েজ বন্টন - Quranic</h3><small>বাংলাদেশের প্রথম</small>
+<label>মোট সম্পত্তি ৳</label><input type="number" id="fa_total" value="1000000">
+<div style="display:flex;gap:6px">
+<select id="fa_wife" style="flex:1"><option value="0">স্ত্রী নেই</option><option value="1" selected>1 স্ত্রী</option></select>
+<select id="fa_hus" style="flex:1"><option value="0" selected>স্বামী নেই</option><option value="1">স্বামী আছে</option></select>
+</div>
+<div style="display:flex;gap:6px">
+<input type="number" id="fa_son" value="2" placeholder="ছেলে সংখ্যা">
+<input type="number" id="fa_dau" value="1" placeholder="মেয়ে সংখ্যা">
+</div>
+<button class="btn btn-faraiz" onclick="calcFaraiz()">বন্টন করুন</button><div id="fa_res" class="result" style="background:#e0f2f1">ফলাফল এখানে</div></div>
+</div>
+
+<!-- QURBANI - NEW INTERESTING FEATURE -->
+<div id="qurbani" class="panel">
+<div class="card"><h3>🐄 কোরবানি ভাগ ক্যালকুলেটর</h3><small>Eid Special - গরু ৭ ভাগ, উট ১০ ভাগ</small>
+<label>পশুর ধরন</label><select id="qb_type" onchange="qbChange()"><option value="cow">গরু / মহিষ (7 ভাগ)</option><option value="goat">ছাগল / ভেড়া (1 ভাগ)</option><option value="camel">উট (10 ভাগ)</option></select>
+<label>মোট দাম ৳</label><input type="number" id="qb_price" value="70000">
+<label>কতজনের ভাগ?</label><input type="number" id="qb_share" value="7">
+<label>কসাই খরচ ৳ (Optional)</label><input type="number" id="qb_extra" value="3000" placeholder="3000">
+<button class="btn btn-qurbani" onclick="calcQurbani()">ভাগের হিসাব বের করুন</button><div id="qb_res" class="result" style="background:#fbe9e7;border-color:#bf360c">Result here</div>
+<div style="font-size:11px;margin-top:8px;background:#fff3e0;padding:8px;border-radius:6px">💡 টিপস: প্রতি ভাগে গোশত ~ 7-10 কেজি | চামড়া মাদ্রাসায় দান করুন | নিয়ত শুদ্ধ রাখুন</div></div>
+</div>
+
+<div id="tasbih" class="panel">
+<div class="card" style="text-align:center"><h3>📿 ডিজিটাল তাসবিহ - Zikr Counter</h3><small>প্রতিদিনের জিকির - Offline Works</small>
+<label>জিকির নির্বাচন করুন</label><select id="zikr_type" onchange="resetTasbih()">
+<option value="SubhanAllah">সুবহানাল্লাহ (33 বার)</option>
+<option value="Alhamdulillah">আলহামদুলিল্লাহ (33 বার)</option>
+<option value="AllahuAkbar">আল্লাহু আকবার (34 বার)</option>
+<option value="LaIlaha">লা ইলাহা ইল্লাল্লাহ (100 বার)</option>
+<option value="Astagfirullah">আস্তাগফিরুল্লাহ (100 বার)</option>
+<option value="Durud">দরুদ শরীফ (100 বার)</option>
+</select>
+<div class="tasbih-circle" id="tasbihCount" onclick="addTasbih()">0</div>
+<p id="zikrName" style="font-weight:800;color:#006A4E;font-size:18px">সুবহানাল্লাহ</p>
+<p style="font-size:12px;color:#666;margin-top:4px">বৃত্তে ট্যাপ করুন • Target: <span id="target" style="font-weight:900">33</span> বার</p>
+<div style="display:flex;gap:8px;margin-top:10px"><button class="btn btn-tasbih" style="flex:1" onclick="resetTasbih()">🔄 Reset</button><button class="btn" style="flex:1;background:#666" onclick="vibrateTest()">📳 Vibrate</button></div>
+<div id="tasbih_history" class="result" style="background:#e0f2f1;border-color:#004d40">আজ মোট: 0 বার জিকির</div>
+<div style="font-size:10px;color:#888;margin-top:8px">প্রতি 33 বারে ফোন কাঁপবে। নেকি অটো সেভ হবে।</div>
+</div>
+</div>
+
+<!-- DONATE -->
+<div id="donate" class="panel">
+<div class="card"><h3>❤️ Donation for Good Purpose</h3><small>Education & Charity by Dr. Sumaiya Mohammad</small>
+<p style="font-size:12px;margin:8px 0;line-height:1.5">This is <b>General Donation (Sadaqah)</b>, <b>NOT Zakat</b>. Your support helps poor students and community welfare.</p>
+<div class="bkash-card">🌸 bKash Donation BD<br><a href="tel:01742701642">01742701642</a><br><span style="font-size:11px">Send Money • Ref: Good Cause</span><br><span style="font-size:9px;opacity:.9">100% for Education & Charity - Not Zakat</span></div>
+<div style="background:#fff8e1;border:1px solid #ffcc02;padding:8px;border-radius:8px;font-size:11px;margin-top:10px"><b>Supports:</b> • Poor students • App maintenance • Community welfare</div>
+<button class="btn btn-donate" onclick="window.location.href='tel:01742701642'">bKash: 01742701642</button></div>
+</div>
+<div class="footer">
+<b>Developed by Dr. Sumaiya Mohammad</b>Bangladesh 🇧🇩<br>
+For Good Purpose Donation: bKash 01742701642<br>
+<span style="font-size:9px">General Donation Only - We do NOT collect Zakat<br>Zakat must be given directly to eligible persons per Shariah</span><br>
+<a href="#" style="color:#81c784">Privacy Policy</a> | Islamic Super App 7in1<br>
+Tax: NBR | Zakat: Hanafi | Fitra: IFBD | Faraiz: Quranic | Qurbani: Shariah | Tasbih<br>
+© 2026 Dr. Sumaiya Mohammad - All Rights Reserved
+</div>
+
+<script>
+function showTab(e,id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');e.target.classList.add('active');}
+
+// TAX LOGIC
+function calcTax(){
+ let g=+document.getElementById('t_inc').value||0;
+ let f=+document.getElementById('t_cat').value;
+ let s=document.getElementById('t_sal').checked;
+ let tb=s?g-Math.min(g/3,500000):g;
+ let rem=Math.max(0,tb-f);
+ let slabs=[[300000,0.10],[400000,0.15],[500000,0.20],[2000000,0.25],[Infinity,0.30]];
+ let tax=0,tmp=rem;
+ for(let[lim,r] of slabs){if(tmp<=0)break;let tk=Math.min(tmp,lim);tax+=tk*r;tmp-=tk;}
+ if(tb>f&&tax>0&&tax<5000)tax=5000;
+ document.getElementById('t_res').innerHTML=`<b>Yearly Tax: ৳${Math.round(tax).toLocaleString()}</b><br>Monthly: ৳${Math.round(tax/12).toLocaleString()}<br>Taxable: ৳${Math.round(tb).toLocaleString()}`;
+}
+
+// ZAKAT LOGIC
+const GP=12500;
+document.getElementById('z_gGr').addEventListener('input',function(){document.getElementById('z_gold').value=this.value*GP;});
+function calcZakat(){
+ let t=(+document.getElementById('z_cash').value||0)+(+document.getElementById('z_gold').value||0)+(+document.getElementById('z_other').value||0)-(+document.getElementById('z_debt').value||0);
+ let nisab=612.36*1450;
+ let z=t*0.025;
+ document.getElementById('z_res').innerHTML=`মোট সম্পদ: ৳${t.toLocaleString()}<br>Nisab (রূপা): ৳${Math.round(nisab).toLocaleString()}<br>${t>=nisab?`<b style="color:green">যাকাত ফরজ: ৳${Math.round(z).toLocaleString()}</b><br><small>সরাসরি হকদারকে দিন - App সংগ্রহ করে না</small>`:`<b>যাকাত ফরজ নয়</b>`}`;
+}
+
+// FITRA
+function calcFitra(){let c=+document.getElementById('f_cnt').value||0;let r=+document.getElementById('f_type').value;document.getElementById('f_res').innerHTML=`<b>মোট ফিতরা: ৳${(c*r).toLocaleString()}</b><br>জনপ্রতি: ৳${r} x ${c} জন`;}
+
+ // FARAIZ
+function calcFaraiz(){
+ let total=+document.getElementById('fa_total').value||0;
+ let w=+document.getElementById('fa_wife').value;
+ let h=+document.getElementById('fa_hus').value;
+ let sons=+document.getElementById('fa_son').value||0;
+ let daus=+document.getElementById('fa_dau').value||0;
+ let hasChild=sons+daus>0;
+ let left=total;
+ let res=`<b>মোট সম্পত্তি: ৳${total.toLocaleString()}</b><br><br>`;
+ if(w){let s=hasChild?total/8:total/4;res+=`স্ত্রী: ৳${Math.round(s).toLocaleString()}<br>`;left-=s;}
+ if(h){let s=hasChild?total/4:total/2;res+=`স্বামী: ৳${Math.round(s).toLocaleString()}<br>`;left-=s;}
+ let parts=sons*2+daus;
+ if(parts>0){let per=left/parts;if(daus>0)res+=`প্রতি মেয়ে: ৳${Math.round(per).toLocaleString()}<br>`;if(sons>0)res+=`প্রতি ছেলে: ৳${Math.round(per*2).toLocaleString()}<br>`;left=0;}
+ document.getElementById('fa_res').innerHTML=res;
+}
+
+// QURBANI - NEW
+function qbChange(){let t=document.getElementById('qb_type').value;if(t=='cow')document.getElementById('qb_share').value=7;else if(t=='camel')document.getElementById('qb_share').value=10;else document.getElementById('qb_share').value=1;}
+function calcQurbani(){
+ let price=+document.getElementById('qb_price').value||0;
+ let share=+document.getElementById('qb_share').value||1;
+ let extra=+document.getElementById('qb_extra').value||0;
+ let total=price+extra;
+ let per=total/share;
+ let perMeat=share>=7?Math.round(350/share):18;
+ document.getElementById('qb_res').innerHTML=`<b style="font-size:16px">প্রতি ভাগ: ৳${Math.round(per).toLocaleString()}</b><br>পশু দাম: ৳${price.toLocaleString()} + খরচ ৳${extra.toLocaleString()} = ৳${total.toLocaleString()}<br>ভাগ: ${share} জন<br>আনুমানিক গোশত: ~${perMeat} কেজি/ভাগ<br><br><span style="color:green;font-weight:800">আল্লাহ কবুল করুন। নিয়ত শুদ্ধ রাখুন।</span>`;
+}
+
+// TASBIH - NEW
+let count=0,totalToday=0;
+function addTasbih(){
+ count++;totalToday++;
+ document.getElementById('tasbihCount').innerText=count;
+ let tgt=+document.getElementById('target').innerText;
+ if(count%tgt==0){
+  if(navigator.vibrate)navigator.vibrate(200);
+  document.getElementById('tasbihCount').style.background='radial-gradient(circle,#e2136e,#880e4f)';
+  setTimeout(()=>{document.getElementById('tasbihCount').style.background='radial-gradient(circle,#006A4E,#004d38)';},300);
+ }else{
+  if(navigator.vibrate)navigator.vibrate(30);
+ }
+ document.getElementById('tasbih_history').innerHTML=`আজ মোট: ${totalToday} বার • এই জিকির: ${count} বার<br><small>মাশাআল্লাহ! চালিয়ে যান</small>`;
+ localStorage.setItem('tasbih_total_v7',totalToday);
+ localStorage.setItem('tasbih_current',count);
+}
+function resetTasbih(){
+ count=0;
+ document.getElementById('tasbihCount').innerText=0;
+ let type=document.getElementById('zikr_type').value;
+ let map={
+  SubhanAllah:['সুবহানাল্লাহ',33],
+  Alhamdulillah:['আলহামদুলিল্লাহ',33],
+  AllahuAkbar:['আল্লাহু আকবার',34],
+  LaIlaha:['লা ইলাহা ইল্লাল্লাহ',100],
+  Astagfirullah:['আস্তাগফিরুল্লাহ',100],
+  Durud:['দরুদ শরীফ ﷺ',100]
+ };
+ document.getElementById('zikrName').innerText=map[type][0];
+ document.getElementById('target').innerText=map[type][1];
+ document.getElementById('tasbihCount').style.background='radial-gradient(circle,#006A4E,#004d38)';
+}
+function vibrateTest(){if(navigator.vibrate){navigator.vibrate([100,50,100]);alert('Vibration ON ✓ - প্রতি ট্যাপে কাঁপবে, 33/100 পূর্ণ হলে বেশি কাঁপবে');}else{alert('Vibration not supported on this device');}}
+// Load saved
+resetTasbih();
+totalToday=+(localStorage.getItem('tasbih_total_v7')||0);
+if(totalToday>0){document.getElementById('tasbih_history').innerHTML=`আজ মোট: ${totalToday} বার • Welcome back! - Dr. Sumaiya Mohammad`;}
+</script>
+</body>
+</html>
